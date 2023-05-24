@@ -30,8 +30,6 @@ export default {
     console.log("mounted", this.reviewInit);
 
     const { isLiked, id } = this.reviewInit;
-    console.log("afeter", this.reviewInit);
-    console.log("mounted test", isLiked, id);
     const dataObj = { islike: isLiked, id };
     console.log("props > ", dataObj);
     // this.likedata = dataObj;
