@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div id="like" v-html="likedata" @click="doLike"></div>
+  <div id="like" v-html="likedata[reviewInit.id]" @click="doLike"></div>
 </template>
 <script>
 import api from "@/assets/js/util/axios.js";
@@ -16,18 +16,27 @@ export default {
 
   computed: {
     likedata() {
-      console.log(this.$store.state.buttonStore.reviewLike);
-      return this.$store.state.buttonStore.reviewLike[this.reviewInit.id];
+      console.log("getter", this.$store.state.buttonStore.reviewLike);
+      return this.$store.state.buttonStore.reviewLike;
     },
   },
-
   created() {
-    console.log("props > ", this.reviewInit);
-    const dataObj = {
-      islike: this.$store.state.buttonStore.reviewLike[this.reviewInit.id],
-      id: this.reviewInit.id,
-    };
-    // const dataObj = { islike: this.reviewInit.isLiked, id: this.reviewInit.id };
+    console.log("init", this.reviewInit);
+    console.log("init next", this.reviewInit.id);
+  },
+  mounted() {
+    // const dataObj = {
+    //   islike: this.$store.state.buttonStore.reviewLike[this.reviewInit.id],
+    //   id: this.reviewInit.id,
+    // };
+    console.log("mounted", this.reviewInit);
+
+    const { isLiked, id } = this.reviewInit;
+    console.log("afeter", this.reviewInit);
+    console.log("mounted test", isLiked, id);
+    const dataObj = { islike: isLiked, id };
+    console.log("props > ", dataObj);
+    // this.likedata = dataObj;
     this.$store.dispatch("buttonStore/updateLike", dataObj, { root: true });
   },
 

@@ -1,10 +1,14 @@
 <template>
   <div id="box">
-    <img class="img" src="@/assets/img/blue-sky-g64217e8e3_1920.jpg" alt="" />
+    <img
+      class="img"
+      src="https://img.freepik.com/free-psd/travel-background-composition-with-backpack_23-2149603154.jpg?w=1380&t=st=1684904625~exp=1684905225~hmac=d5a23928d33003ee6f767f2056d9cd7246fb29951045388d35f0212c3ce100ca"
+      alt=""
+    />
     <!--"../assets/img/korea-geab21995b_1920.jpg"-->
     <div class="heading">
       <h6><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;{{ review.place }}</h6>
-      <h4>{{ review.title }}</h4>
+      <h4 class="mt-3">{{ review.title }}</h4>
       <div id="likeAndBookmark">
         <Like :reviewInit="reviewLike"></Like>
       </div>
@@ -19,18 +23,28 @@
   </div>
 </template>
 <script>
-import Like from '../button/Like.vue';
-
+import Like from "../button/Like.vue";
+import api from "@/assets/js/util/axios.js";
 export default {
-  name: 'ReviewBoard',
+  name: "ReviewBoard",
   props: {
     review: {
       type: Object,
     },
   },
+  async created() {
+    console.log("child review", this.review);
+    console.log(this.$store.state.buttonStore.reviewLike);
+    const likeUrl = "/likes/" + this.review.reviewIdx;
+    const res = await api.get(likeUrl);
+    const data = await res.data;
+    this.reviewLike["id"] = this.review.reviewIdx;
+    this.reviewLike["isLiked"] = data;
+    console.log("review like", this.reviewLike.isLiked);
+  },
   data() {
     return {
-      reviewLike: { id: this.review.reviewIdx, isLiked: this.review.isLiked },
+      reviewLike: { id: this.review.reviewIdx },
     };
   },
   components: {
@@ -77,6 +91,7 @@ export default {
   padding: 8px 8px 8px 10px;
   font-size: 12px;
   color: #666;
+  margin-top: 5px;
 }
 
 #box .data span {
@@ -102,8 +117,17 @@ export default {
 #likeAndBookmark {
   display: flex;
   justify-content: flex-end;
-  margin-top: -80px;
+  margin-top: -87px;
   padding-bottom: 30px;
   align-items: center;
+}
+
+h6,
+h6 i {
+  color: var(--color-semigray);
+}
+
+#box h4 {
+  font-weight: 700;
 }
 </style>
