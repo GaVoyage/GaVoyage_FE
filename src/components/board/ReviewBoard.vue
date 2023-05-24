@@ -10,7 +10,7 @@
       <h6><i class="fa fa-map-marker" aria-hidden="true"></i>&nbsp;{{ review.place }}</h6>
       <h4 class="mt-3">{{ review.title }}</h4>
       <div id="likeAndBookmark">
-        <Like :reviewInit="reviewLike"></Like>
+        <Like :reviewInit="{ isLiked: review.isLiked, id: review.reviewIdx }"></Like>
       </div>
     </div>
 
@@ -24,7 +24,7 @@
 </template>
 <script>
 import Like from "../button/Like.vue";
-import api from "@/assets/js/util/axios.js";
+// import api froms "@/assets/js/util/axios.js";
 export default {
   name: "ReviewBoard",
   props: {
@@ -32,19 +32,25 @@ export default {
       type: Object,
     },
   },
-  async created() {
-    console.log("child review", this.review);
-    console.log(this.$store.state.buttonStore.reviewLike);
-    const likeUrl = "/likes/" + this.review.reviewIdx;
-    const res = await api.get(likeUrl);
-    const data = await res.data;
-    this.reviewLike["id"] = this.review.reviewIdx;
-    this.reviewLike["isLiked"] = data;
-    console.log("review like", this.reviewLike.isLiked);
+  updated() {
+    console.log("update check", this.review);
+  },
+  mounted() {
+    console.log("mounted check", this.review);
+  },
+  created() {
+    // console.log("child review", this.review);
+    // console.log(this.$store.state.buttonStore.reviewLike);
+    // const likeUrl = "/likes/" + this.review.reviewIdx;
+    // const res = await api.get(likeUrl);
+    // const data = await res.data;
+    // this.reviewLike["id"] = this.review.reviewIdx;
+    // this.reviewLike["isLiked"] = data;
+    // console.log("review like", this.reviewLike.isLiked);
   },
   data() {
     return {
-      reviewLike: { id: this.review.reviewIdx },
+      reviewLike: { id: this.review.reviewIdx, isLiked: 0 },
     };
   },
   components: {

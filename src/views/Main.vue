@@ -83,21 +83,25 @@ export default {
     getAttractionInfo,
     getMap,
   },
-  async created() {
+  created() {
     let reviewUrl = "/reviews";
     try {
-      const res = await api.get(reviewUrl);
-      const review = await res.data;
-      console.log("review", review);
-      this.reviews = review.slice(0, 5);
-      this.reviews.forEach(async (review) => {
-        review["place"] = "GaVoyage";
-        const likeUrl = "/likes/" + review.reviewIdx;
-        const res2 = await api.get(likeUrl);
-        console.log("res2", res2);
-        const data = await res2.data;
+      // const res = await api.get(reviewUrl);
+      // const review = await res.data;
+      // console.log("review", review);
+      // this.reviews = review.slice(0, 5);
+      // this.reviews.forEach(async (review) => {
+      //   review["place"] = "GaVoyage";
+      //   const likeUrl = "/likes/" + review.reviewIdx;
+      //   const res2 = await api.get(likeUrl);
+      //   console.log("res2", res2);
+      //   const data = await res2.data;
+      //   this.reviews.isLiked = data;
+      // });
 
-        this.reviews.isLiked = data;
+      api.get(reviewUrl).then(({ data }) => {
+        console.log("review arrived", data);
+        this.reviews = data;
       });
     } catch (e) {
       console.log(e);

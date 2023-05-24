@@ -9,9 +9,7 @@ import { $ } from "@/assets/js/util/elementTool";
 export default {
   name: "Like",
   props: {
-    reviewInit: {
-      type: Object,
-    },
+    reviewInit: Object,
   },
 
   computed: {
@@ -22,7 +20,7 @@ export default {
   },
   created() {
     console.log("init", this.reviewInit);
-    console.log("init next", this.reviewInit.id);
+    console.log("init next", this.reviewInit.isLiked);
   },
   mounted() {
     // const dataObj = {
